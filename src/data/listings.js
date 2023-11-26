@@ -1,5 +1,4 @@
-let arrayOfListings = 
-  [
+module.exports = [
   {
 
     id: 1,
@@ -710,5 +709,3 @@ let arrayOfListings =
   ],
   },
 ];
-
-module.exports = arrayOfListings;
