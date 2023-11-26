@@ -38,7 +38,7 @@ const OverView = ({ id }) => {
     {
       icon: "flaticon-garage",
       label: "Garage",
-      value: "2",
+      value: data ? data.garage : "Add API Call",
       xs: true,
     },
     {

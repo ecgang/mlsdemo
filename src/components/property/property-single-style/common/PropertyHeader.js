@@ -1,53 +1,69 @@
-'use client';
-
+"use client"
 import React, { useEffect, useState } from 'react';
 import fetchListings from '@/data/listings';
 
 const PropertyHeader = ({ id }) => {
-  const [data, setData] = useState(null);
+  const [propertyData, setPropertyData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const listingsData = await fetchListings();
-        const propertyData = listingsData.find((elm) => elm.id === id) || listingsData[0];
-        setData(propertyData);
-      } catch (error) {
-        console.error('Error fetching listings:', error);
+  const fetchData = async () => {
+    try {
+      const listingsData = await fetchListings();
+
+      console.log('Received listings data:', listingsData); // Log the received data
+
+      if (Array.isArray(listingsData)) {
+        const property = listingsData.find((property) => property.id === id);
+
+        if (property) {
+          setPropertyData(property);
+        } else {
+          setError(`Property with id ${id} not found.`);
+        }
+      } else {
+        setError('Received data is not an array');
       }
-    };
+    } catch (error) {
+      console.error('Error fetching listings:', error);
+      setError('Error fetching listings');
+    }
+  };
 
-    fetchData();
-  }, [id]);
+  fetchData();
+}, [id]);
 
-  if (!data) {
-    // Handle loading state, e.g., display a loading spinner
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!propertyData) {
     return <div>Loading...</div>;
   }
+  
   return (
     <>
       <div className="col-lg-8">
         <div className="single-property-content mb30-md">
-          <h2 className="sp-lg-title">{data.title}</h2>
+          <h2 className="sp-lg-title">{propertyData.title}</h2>
           <div className="pd-meta mb15 d-md-flex align-items-center">
             <p className="text fz15 mb-0 bdrr1 pr10 bdrrn-sm">
-              {data.location}
+              {propertyData.location}
             </p>
             <a
               className="ff-heading text-thm fz15 bdrr1 pr10 ml0-sm ml10 bdrrn-sm"
               href="#"
             >
               <i className="fas fa-circle fz10 pe-2" />
-              For {data.forRent ? "rent" : "sale"}
+              For {propertyData.forRent ? "rent" : "sale"}
             </a>
             <a
               className="ff-heading bdrr1 fz15 pr10 ml10 ml0-sm bdrrn-sm"
               href="#"
             >
               <i className="far fa-clock pe-2" />
-              {Number(new Date().getFullYear()) -
-                Number(data.yearBuilding)}{" "}
-              years ago
+              Built {Number(propertyData.yearBuilding)}{" "}
+              
             </a>
             <a className="ff-heading ml10 ml0-sm fz15" href="#">
               <i className="flaticon-fullscreen pe-2 align-text-top" />
@@ -57,15 +73,15 @@ const PropertyHeader = ({ id }) => {
           <div className="property-meta d-flex align-items-center">
             <a className="text fz15" href="#">
               <i className="flaticon-bed pe-2 align-text-top" />
-              {data.bed} bed
+              {propertyData.bed} bed
             </a>
             <a className="text ml20 fz15" href="#">
               <i className="flaticon-shower pe-2 align-text-top" />
-              {data.bath} bath
+              {propertyData.bath} bath
             </a>
             <a className="text ml20 fz15" href="#">
               <i className="flaticon-expand pe-2 align-text-top" />
-              {data.sqft} sqft
+              {propertyData.sqft} sqft
             </a>
           </div>
         </div>
@@ -89,11 +105,11 @@ const PropertyHeader = ({ id }) => {
                 <span className="flaticon-printer" />
               </a>
             </div>
-            <h3 className="price mb-0">{data.price}</h3>
+            <h3 className="price mb-0">{propertyData.price}</h3>
             <p className="text space fz15">
               $
               {(
-                Number(data.price.split("$")[1].split(",").join("")) / data.sqft
+                Number(propertyData.price.split("$")[1].split(",").join("")) / propertyData.sqft
               ).toFixed(2)}
               /sq ft
             </p>

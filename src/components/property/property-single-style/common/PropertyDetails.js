@@ -1,74 +1,86 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
+import fetchListings from "@/data/listings"; // Import the fetchListings function
 
 const PropertyDetails = () => {
-  const columns = [
-    [
-      {
-        label: "Property ID",
-        value: "RT48",
-      },
-      {
-        label: "Price",
-        value: "$252,000",
-      },
-      {
-        label: "Property Size",
-        value: "1500 Sq Ft",
-      },
-      {
-        label: "Bathrooms",
-        value: "3",
-      },
-      {
-        label: "Bedrooms",
-        value: "2",
-      },
-    ],
-    [
-      {
-        label: "Garage",
-        value: "2",
-      },
-      {
-        label: "Garage Size",
-        value: "200 SqFt",
-      },
-      {
-        label: "Year Built",
-        value: "2022",
-      },
-      {
-        label: "Property Type",
-        value: "Apartment",
-      },
-      {
-        label: "Property Status",
-        value: "For Sale",
-      },
-    ],
+  const [listing, setListing] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        // Choose a specific listing or handle it based on your requirements
+        const selectedListing = listingsData[0];
+        setListing(selectedListing);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!listing) {
+    // Handle loading state, e.g., display a loading spinner
+    return <div>Loading...</div>;
+  }
+
+  // Create an array of property details based on the listing data
+  const propertyDetails = [
+    {
+      label: "Property ID",
+      value: listing.id,
+    },
+    {
+      label: "Price",
+      value: listing.price,
+    },
+    {
+      label: "Property Size",
+      value: `${listing.sqft} Sq Ft`,
+    },
+    {
+      label: "Bathrooms",
+      value: listing.bath,
+    },
+    {
+      label: "Bedrooms",
+      value: listing.bed,
+    },
+    {
+      label: "Garage",
+      value: listing.garage,
+    },
+    {
+      label: "Garage Size",
+      value: `${listing.garageSize} SqFt`,
+    },
+    {
+      label: "Year Built",
+      value: listing.yearBuilding,
+    },
+    {
+      label: "Property Type",
+      value: listing.propertyType,
+    },
+    {
+      label: "Property Status",
+      value: listing.forRent ? "For Rent" : "For Sale",
+    },
   ];
 
   return (
     <div className="row">
-      {columns.map((column, columnIndex) => (
-        <div
-          key={columnIndex}
-          className={`col-md-6 col-xl-4${
-            columnIndex === 1 ? " offset-xl-2" : ""
-          }`}
-        >
-          {column.map((detail, index) => (
-            <div key={index} className="d-flex justify-content-between">
-              <div className="pd-list">
-                <p className="fw600 mb10 ff-heading dark-color">
-                  {detail.label}
-                </p>
-              </div>
-              <div className="pd-list">
-                <p className="text mb10">{detail.value}</p>
-              </div>
+      {propertyDetails.map((detail, index) => (
+        <div key={index} className="col-md-6 col-xl-4">
+          <div className="d-flex justify-content-between">
+            <div className="pd-list">
+              <p className="fw600 mb10 ff-heading dark-color">{detail.label}</p>
             </div>
-          ))}
+            <div className="pd-list">
+              <p className="text mb10">{detail.value}</p>
+            </div>
+          </div>
         </div>
       ))}
     </div>

@@ -1,18 +1,34 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
+import fetchListings from "@/data/listings"; // Import the fetchListings function
 
-const ProperytyDescriptions = () => {
+const PropertyDescriptions = () => {
+  const [listing, setListing] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        // Choose a specific listing or handle it based on your requirements
+        const selectedListing = listingsData[0];
+        setListing(selectedListing);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!listing) {
+    // Handle loading state, e.g., display a loading spinner
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
-      <p className="text mb10">
-        This 3-bed with a loft, 2-bath home in the gated community of The
-        Hideout has it all. From the open floor plan to the abundance of light
-        from the windows, this home is perfect for entertaining. The living room
-        and dining room have vaulted ceilings and a beautiful fireplace. You
-        will love spending time on the deck taking in the beautiful views. In
-        the kitchen, you&apos;ll find stainless steel appliances and a tile
-        backsplash, as well as a breakfast bar.
-      </p>
-      <div className="agent-single-accordion">
+      <p className="text mb10">{listing.description}</p>
+       <div className="agent-single-accordion">
         <div className="accordion accordion-flush" id="accordionFlushExample">
           <div className="accordion-item">
             <div
@@ -52,4 +68,5 @@ const ProperytyDescriptions = () => {
   );
 };
 
-export default ProperytyDescriptions;
+export default PropertyDescriptions;
+
