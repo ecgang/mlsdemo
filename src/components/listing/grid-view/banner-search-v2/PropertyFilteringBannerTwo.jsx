@@ -4,7 +4,7 @@
 import listings from "@/data/listings";
 import React, { useState,useEffect } from 'react'
 
-import FeaturedListings from './FeatuerdListings'
+import FeaturedListings from './featuredListings'
 import TopFilterBar from './TopFilterBar'
 import Hero from './hero'
 import PaginationTwo from "../../PaginationTwo";

@@ -1,10 +1,29 @@
-"use client";
+'use client';
 
-import listings from "@/data/listings";
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import fetchListings from '@/data/listings';
 
 const PropertyHeader = ({ id }) => {
-  const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        const propertyData = listingsData.find((elm) => elm.id === id) || listingsData[0];
+        setData(propertyData);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (!data) {
+    // Handle loading state, e.g., display a loading spinner
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <div className="col-lg-8">

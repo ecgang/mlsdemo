@@ -10,7 +10,7 @@ import Explore from "@/components/common/Explore";
 import ExploreCities from "@/components/home/home-v8/ExploreCities";
 import Service from "@/components/home/home-v8/Service";
 import FeaturedHomes from "@/components/home/home-v8/FeaturedHomes";
-import FeaturedListings from "@/components/home/home-v8/FeatuerdListings";
+import FeaturedListings from "@/components/home/home-v8/featuredListings";
 import PartnerDark from "@/components/common/PartnerDark";
 import SidebarStickyBar from "@/components/home/home-v8/SidebarStickyBar";
 import Link from "next/link";

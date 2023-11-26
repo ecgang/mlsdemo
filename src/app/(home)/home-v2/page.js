@@ -4,7 +4,7 @@ import Agents from "@/components/home/home-v2/Agents";
 import ApartmentType from "@/components/home/home-v2/ApartmentType";
 import Explore from "@/components/home/home-v2/Explore";
 import ExploreCities from "@/components/home/home-v2/ExploreCities";
-import FeaturedListings from "@/components/home/home-v2/FeatuerdListings";
+import FeaturedListings from "@/components/home/home-v2/featuredListings";
 import Header from "@/components/home/home-v2/Header";
 import Testimonial from "@/components/home/home-v2/Testimonial";
 import About from "@/components/home/home-v2/about";

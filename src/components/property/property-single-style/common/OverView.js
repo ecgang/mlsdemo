@@ -1,24 +1,39 @@
-import listings from "@/data/listings";
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
+import fetchListings from "@/data/listings"; // Import the fetchListings function
 
+const OverView = ({ id }) => {
+  const [data, setData] = useState(null);
 
-const OverView = ({id}) => {
-  const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        const propertyData = listingsData.find((elm) => elm.id == id) || listingsData[0];
+        setData(propertyData);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
   const overviewData = [
     {
       icon: "flaticon-bed",
       label: "Bedroom",
-      value: data.bed,
+      value: data ? data.bed : "",
     },
     {
       icon: "flaticon-shower",
       label: "Bath",
-      value: data.bath,
+      value: data ? data.bath : "",
     },
     {
       icon: "flaticon-event",
       label: "Year Built",
-      value: data.yearBuilding,
+      value: data ? data.yearBuilding : "",
     },
     {
       icon: "flaticon-garage",
@@ -29,17 +44,16 @@ const OverView = ({id}) => {
     {
       icon: "flaticon-expand",
       label: "Sqft",
-      value: data.sqft,
+      value: data ? data.sqft : "",
       xs: true,
     },
     {
       icon: "flaticon-home-1",
       label: "Property Type",
-      value: data.propertyType,
+      value: data ? data.propertyType : "",
     },
   ];
-  
- 
+
   return (
     <>
       {overviewData.map((item, index) => (

@@ -6,7 +6,7 @@ import React, { useState,useEffect } from 'react'
 import TopFilterBar2 from "./TopFilterBar2";
 import AdvanceFilterModal from "@/components/common/advance-filter-two";
 import TopFilterBar from "./TopFilterBar";
-import FeaturedListings from "./FeatuerdListings";
+import FeaturedListings from "./featuredListings";
 
 import PaginationTwo from "../../PaginationTwo";
 import ListingMap1 from "../ListingMap1";

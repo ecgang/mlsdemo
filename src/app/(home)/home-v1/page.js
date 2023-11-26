@@ -4,7 +4,7 @@ import MobileMenu from "@/components/common/mobile-menu";
 import About from "@/components/home/home-v1/About";
 import ApartmentType from "@/components/home/home-v1/ApartmentType";
 import CallToActions from "@/components/common/CallToActions";
-import FeaturedListings from "@/components/home/home-v1/FeatuerdListings";
+import FeaturedListings from "@/components/home/home-v1/featuredListings";
 import Header from "@/components/home/home-v1/Header";
 import Partner from "@/components/common/Partner";
 import PopularListings from "@/components/home/home-v1/PopularListings";

@@ -4,7 +4,7 @@ import listings from "@/data/listings";
 import React, { useState, useEffect } from "react";
 import ListingSidebar from "../../sidebar";
 import TopFilterBar from "./TopFilterBar";
-import FeaturedListings from "./FeatuerdListings";
+import FeaturedListings from "./featuredListings";
 import PaginationTwo from "../../PaginationTwo";
 
 export default function PropertyFilteringList() {

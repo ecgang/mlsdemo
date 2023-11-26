@@ -1,30 +1,51 @@
-"use client";
+'use client';
 import { Gallery, Item } from "react-photoswipe-gallery";
 import "photoswipe/dist/photoswipe.css";
 import Image from "next/image";
-import listings from "@/data/listings";
+import React, { useEffect, useState } from "react"; // Import useState and useEffect from react
+import fetchListings from "@/data/listings";
 
-const images = [
-  {
-    src: "/images/listings/listing-single-2.jpg",
-    alt: "2.jpg",
-  },
-  {
-    src: "/images/listings/listing-single-3.jpg",
-    alt: "3.jpg",
-  },
-  {
-    src: "/images/listings/listing-single-4.jpg",
-    alt: "4.jpg",
-  },
-  {
-    src: "/images/listings/listing-single-5.jpg",
-    alt: "5.jpg",
-  },
-];
+const PropertyGallery = ({ id }) => {
+  const [data, setData] = useState(null);
 
-const PropertyGallery = ({id}) => {
-  const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        const propertyData = listingsData.find((elm) => elm.id === id) || listingsData[0];
+        setData(propertyData);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (!data) {
+    // Handle loading state, e.g., display a loading spinner
+    return <div>Loading...</div>;
+  }
+
+  const images = [
+    {
+      src: "/images/listings/listing-single-2.jpg",
+      alt: "2.jpg",
+    },
+    {
+      src: "/images/listings/listing-single-3.jpg",
+      alt: "3.jpg",
+    },
+    {
+      src: "/images/listings/listing-single-4.jpg",
+      alt: "4.jpg",
+    },
+    {
+      src: "/images/listings/listing-single-5.jpg",
+      alt: "5.jpg",
+    },
+  ];
+
   return (
     <>
       <Gallery>

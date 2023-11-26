@@ -9,7 +9,7 @@ import React, { useState,useEffect } from 'react'
 import AdvanceFilterModal from '@/components/common/advance-filter-two'
 import TopFilterBar2 from './TopFilterBar2'
 import TopFilterBar from './TopFilterBar'
-import FeaturedListings from './FeatuerdListings'
+import FeaturedListings from './featuredListings'
 import Pagination from '../../Pagination'
 import PaginationTwo from "../../PaginationTwo";
 import ListingMap1 from "../ListingMap1";

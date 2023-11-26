@@ -8,7 +8,7 @@ import listings from "@/data/listings";
 import React, { useState,useEffect } from 'react'
 import TopFilterBar from "./TopFilterBar";
 import TopFilterBar2 from "./TopFilterBar2";
-import FeaturedListings from "./FeatuerdListings";
+import FeaturedListings from "./featuredListings";
 
 import AdvanceFilterModal from "@/components/common/advance-filter-two";
 import PaginationTwo from "../../PaginationTwo";

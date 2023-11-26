@@ -11,7 +11,7 @@ import FeatureProperties from "@/components/home/home-v6/FeatureProperties";
 import Testimonial from "@/components/home/home-v6/Testimonial";
 import About from "@/components/home/home-v6/About";
 import ExploreCities from "@/components/home/home-v6/ExploreCities";
-import FeaturedListings from "@/components/home/home-v6/FeatuerdListings";
+import FeaturedListings from "@/components/home/home-v6/featuredListings";
 import Link from "next/link";
 
 export const metadata = {

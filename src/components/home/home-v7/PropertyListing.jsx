@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import React, { useEffect, useState } from 'react'
 
-import FeaturedListings from './FeatuerdListings'
+import FeaturedListings from './featuredListings'
 
 export default function PropertyListing() {
     const [pageData, setPageData] = useState([])

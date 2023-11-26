@@ -4,7 +4,7 @@ import Hero from "@/components/home/home-v7/hero";
 import Footer from "@/components/home/home-v7/footer";
 import Image from "next/image";
 import Partner from "@/components/common/Partner";
-import FeaturedListings from "@/components/home/home-v7/FeatuerdListings";
+import FeaturedListings from "@/components/home/home-v7/featuredListings";
 import Cta from "@/components/home/home-v7/Cta";
 import InqueryForm from "@/components/home/home-v7/InqueryForm";
 import HeroSlide from "@/components/home/home-v7/hero/HeroSlide";

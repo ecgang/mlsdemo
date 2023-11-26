@@ -1,5 +1,6 @@
 "use client";
-import listings from "@/data/listings";
+import React, { useState, useEffect } from 'react';
+import fetchListings from "@/data/listings";
 import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper";
@@ -7,6 +8,26 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 
 const FeaturedListings = () => {
+  const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const loadListings = async () => {
+      setIsLoading(true);
+      try {
+        const fetchedListings = await fetchListings();
+        setListings(fetchedListings.slice(0, 4)); // Assuming you want to display the first 4 listings
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+      setIsLoading(false);
+    };
+
+    loadListings();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or any other loading indicator
+  }
   return (
     <>
       <Swiper

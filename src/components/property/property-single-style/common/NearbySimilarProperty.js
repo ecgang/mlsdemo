@@ -1,12 +1,33 @@
 "use client";
-import listings from "@/data/listings";
+import React, { useEffect, useState } from "react";
+import fetchListings from "@/data/listings"; // Import the fetchListings function
 import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 
-const NearbySimilarProperty = () => {
+const NearbySimilarProperty = ({ id }) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        const propertyData = listingsData.find((elm) => elm.id === id) || listingsData[0];
+        setData(propertyData);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (!data || !Array.isArray(data)) {
+    // Handle loading state, e.g., display a loading spinner
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <Swiper
@@ -36,7 +57,7 @@ const NearbySimilarProperty = () => {
           },
         }}
       >
-        {listings.slice(0, 5).map((listing) => (
+        {data.slice(0, 5).map((listing) => (
           <SwiperSlide key={listing.id}>
             <div className="item">
               <div className="listing-style1">

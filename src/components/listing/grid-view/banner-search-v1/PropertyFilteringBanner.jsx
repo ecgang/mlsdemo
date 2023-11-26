@@ -4,7 +4,7 @@
 import listings from "@/data/listings";
 import React, { useState,useEffect } from 'react'
 import Pagination from '../../Pagination'
-import FeaturedListings from './FeatuerdListings'
+import FeaturedListings from './featuredListings'
 import TopFilterBar from './TopFilterBar'
 import RecentProperty from '../../sidebar-2/RecentProperty'
 import MortgageCalculator from './MortgageCalculator'

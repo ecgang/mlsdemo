@@ -5,22 +5,30 @@ import Link from 'next/link';
 
 import React, { useEffect, useState } from 'react'
 import PopularListings from './PopularListings'
-import listings from '@/data/listings'
+import fetchListings from '@/data/listings';
 export default function PopulerProperty() {
-    const [pageData, setPageData] = useState([])
-    const [currentType, setCurrentType] = useState('rent')
+    const [pageData, setPageData] = useState([]);
+    const [currentType, setCurrentType] = useState('rent');
     useEffect(() => {
-        if (currentType == 'rent') {
-            const filtered = listings.filter((elm)=>elm.forRent)
-            setPageData(filtered)
-            
+    // Fetch listings using the fetchListings function from your API
+    const fetchListingsData = async () => {
+      try {
+        const listingsData = await fetchListings();
+        if (currentType === 'rent') {
+          const filtered = listingsData.filter((elm) => elm.forRent);
+          setPageData(filtered);
         } else {
-            const filtered = listings.filter((elm)=> !elm.forRent)
-            setPageData(filtered)
-            
+          const filtered = listingsData.filter((elm) => !elm.forRent);
+          setPageData(filtered);
         }
-      
-    }, [currentType])
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+
+    // Call the fetchListingsData function to fetch and filter listings
+    fetchListingsData();
+  }, [currentType]);
     
   return (
     <section className="bgc-dark">

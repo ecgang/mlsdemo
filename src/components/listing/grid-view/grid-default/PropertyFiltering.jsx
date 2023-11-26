@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import fetchListings from '@/data/listings';
 import ListingSidebar from "../../sidebar";
 import TopFilterBar from "./TopFilterBar";
-import FeaturedListings from "./FeatuerdListings";
+import FeaturedListings from "./FeaturedListings";
 
 import PaginationTwo from "../../PaginationTwo";
 
