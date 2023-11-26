@@ -1,6 +1,7 @@
 {
   "name": "homez-nextjs",
   "version": "1.4.0",
+  "proxy": "https://jaliscomls.com",
   "private": true,
   "scripts": {
     "dev": "next dev",

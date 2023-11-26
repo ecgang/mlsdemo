@@ -1,7 +1,6 @@
 "use client";
-
-import listings from "@/data/listings";
 import React, { useState, useEffect } from "react";
+import fetchListings from '@/data/listings';
 import ListingSidebar from "../../sidebar";
 import TopFilterBar from "./TopFilterBar";
 import FeaturedListings from "./FeatuerdListings";
@@ -9,6 +8,7 @@ import FeaturedListings from "./FeatuerdListings";
 import PaginationTwo from "../../PaginationTwo";
 
 export default function PropertyFiltering() {
+  const [listings, setListings] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   const [currentSortingOption, setCurrentSortingOption] = useState("Newest");
@@ -20,6 +20,17 @@ export default function PropertyFiltering() {
   const [pageItems, setPageItems] = useState([]);
 
   const [pageContentTrac, setPageContentTrac] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchListings();
+      setListings(data);
+      // Apply initial filtering here if needed
+      setFilteredData(data);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setPageItems(
