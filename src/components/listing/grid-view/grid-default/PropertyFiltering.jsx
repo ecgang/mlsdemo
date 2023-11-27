@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import fetchListings, { fetchListingById } from '@/data/listings';
-
+import fetchListings from '@/data/listings';
 import ListingSidebar from "../../sidebar";
 import TopFilterBar from "./TopFilterBar";
 import FeaturedListings from "./FeaturedListings";

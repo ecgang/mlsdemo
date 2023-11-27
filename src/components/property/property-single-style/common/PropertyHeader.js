@@ -6,10 +6,11 @@ import fetchListings, { fetchListingById } from '@/data/listings';
 const PropertyHeader = ({ id }) => {
   console.log(id);
   const [data, setData] = useState(null);
+  
 
  useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchListingById();
+      const data = await fetchListings();
       setData(data);
     };
 
@@ -23,7 +24,6 @@ const PropertyHeader = ({ id }) => {
   return (
     <>
       <div className="col-lg-8">
-      test
         <div className="single-property-content mb30-md">
           <h2 className="sp-lg-title">{data.title}</h2>
           <div className="pd-meta mb15 d-md-flex align-items-center">
@@ -86,13 +86,7 @@ const PropertyHeader = ({ id }) => {
               </a>
             </div>
             <h3 className="price mb-0">{data.price}</h3>
-            <p className="text space fz15">
-              $
-              {(
-                Number(data.price.split("$")[1].split(",").join("")) / data.sqft
-              ).toFixed(2)}
-              /sq ft
-            </p>
+           
           </div>
         </div>
       </div>
