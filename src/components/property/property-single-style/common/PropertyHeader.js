@@ -1,68 +1,48 @@
-"use client"
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import fetchListings from '@/data/listings';
+import fetchListings, { fetchListingById } from '@/data/listings';
 
 const PropertyHeader = ({ id }) => {
-  const [propertyData, setPropertyData] = useState(null);
-  const [error, setError] = useState(null);
+  console.log(id);
+  const [data, setData] = useState(null);
 
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const listingsData = await fetchListings();
+ useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchListingById();
+      setData(data);
+    };
 
-      console.log('Received listings data:', listingsData); // Log the received data
+    fetchData();
+  }, []);
 
-      if (Array.isArray(listingsData)) {
-        const property = listingsData.find((property) => property.id === id);
-
-        if (property) {
-          setPropertyData(property);
-        } else {
-          setError(`Property with id ${id} not found.`);
-        }
-      } else {
-        setError('Received data is not an array');
-      }
-    } catch (error) {
-      console.error('Error fetching listings:', error);
-      setError('Error fetching listings');
-    }
-  };
-
-  fetchData();
-}, [id]);
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!propertyData) {
+  if (!data) {
+    // Handle loading state, e.g., display a loading spinner
     return <div>Loading...</div>;
   }
-  
   return (
     <>
       <div className="col-lg-8">
+      test
         <div className="single-property-content mb30-md">
-          <h2 className="sp-lg-title">{propertyData.title}</h2>
+          <h2 className="sp-lg-title">{data.title}</h2>
           <div className="pd-meta mb15 d-md-flex align-items-center">
             <p className="text fz15 mb-0 bdrr1 pr10 bdrrn-sm">
-              {propertyData.location}
+              {data.location}
             </p>
             <a
               className="ff-heading text-thm fz15 bdrr1 pr10 ml0-sm ml10 bdrrn-sm"
               href="#"
             >
               <i className="fas fa-circle fz10 pe-2" />
-              For {propertyData.forRent ? "rent" : "sale"}
+              For {data.forRent ? "rent" : "sale"}
             </a>
             <a
               className="ff-heading bdrr1 fz15 pr10 ml10 ml0-sm bdrrn-sm"
               href="#"
             >
               <i className="far fa-clock pe-2" />
-              Built {Number(propertyData.yearBuilding)}{" "}
+              Built {Number(data.yearBuilding)}{" "}
               
             </a>
             <a className="ff-heading ml10 ml0-sm fz15" href="#">
@@ -73,15 +53,15 @@ const PropertyHeader = ({ id }) => {
           <div className="property-meta d-flex align-items-center">
             <a className="text fz15" href="#">
               <i className="flaticon-bed pe-2 align-text-top" />
-              {propertyData.bed} bed
+              {data.bed} bed
             </a>
             <a className="text ml20 fz15" href="#">
               <i className="flaticon-shower pe-2 align-text-top" />
-              {propertyData.bath} bath
+              {data.bath} bath
             </a>
             <a className="text ml20 fz15" href="#">
               <i className="flaticon-expand pe-2 align-text-top" />
-              {propertyData.sqft} sqft
+              {data.sqft} sqft
             </a>
           </div>
         </div>
@@ -105,11 +85,11 @@ const PropertyHeader = ({ id }) => {
                 <span className="flaticon-printer" />
               </a>
             </div>
-            <h3 className="price mb-0">{propertyData.price}</h3>
+            <h3 className="price mb-0">{data.price}</h3>
             <p className="text space fz15">
               $
               {(
-                Number(propertyData.price.split("$")[1].split(",").join("")) / propertyData.sqft
+                Number(data.price.split("$")[1].split(",").join("")) / data.sqft
               ).toFixed(2)}
               /sq ft
             </p>

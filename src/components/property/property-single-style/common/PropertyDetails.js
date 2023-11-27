@@ -22,7 +22,7 @@ const PropertyDetails = () => {
 
   if (!listing) {
     // Handle loading state, e.g., display a loading spinner
-    return <div>Loading...</div>;
+    return <div>Test Loading...</div>;
   }
 
   // Create an array of property details based on the listing data
