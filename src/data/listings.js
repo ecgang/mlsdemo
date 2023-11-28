@@ -2,13 +2,19 @@ import axios from 'axios';
 
 async function fetchListings() {
   try {
-    const apiUrl = 'api/odata/Property';
+    const apiUrl = 'api/odata/Property'; // Update this to your server's endpoint
+
     const response = await axios.get(apiUrl);
 
-    if (response.data && Array.isArray(response.data.value)) {
-      const transformedData = response.data.value.map(property => {
+    console.log("Raw API Response:", response.data); // Log the raw response
+
+    if (Array.isArray(response.data.value)) {
+      const transformedData = response.data.value.map((property, index) => {
+        const idMatch = property['@odata.id'].match(/'(\d+)'/);
+        const propertyId = idMatch ? idMatch[1] : null;
+
         return {
-          id: property.ListingKey, // Use ListingKey as the identifier
+          id: propertyId,
           image: "/images/listings/default.jpg", // Default image path, replace as needed
           description: property.TextSearch,
           title: property.PropertyTitle || "Unknown Title",
@@ -40,23 +46,20 @@ async function fetchListings() {
   }
 }
 
-export async function fetchListingById(listingKey) {
+// Add a function to filter property data by ID
+export async function fetchListingById(id) {
   try {
     const listingsData = await fetchListings();
-    if (!Array.isArray(listingsData)) {
-      console.error('Fetched data is not an array:', listingsData);
+    const property = listingsData.find(property => property.id === id);
+
+    if (property) {
+      return property;
+    } else {
+      console.error(`Property with id ${id} not found.`);
       return null;
     }
-
-    const property = listingsData.find(property => property.id.toString() === listingKey.toString());
-    if (!property) {
-      console.error(`Property with ListingKey ${listingKey} not found.`);
-      return null;
-    }
-
-    return property;
   } catch (error) {
-    console.error('Error fetching listing by ListingKey:', error);
+    console.error('Error fetching listing by ID:', error);
     return null;
   }
 }

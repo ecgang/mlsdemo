@@ -1,31 +1,33 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchListingById } from "@/data/listings";
+import { fetchListings, fetchListingById } from "@/data/listings";
 
 const PropertyHeader = ({ id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+   useEffect(() => {
+  if (!id) return; // Ensure id is present
+
   const fetchData = async () => {
     try {
       const fetchedData = await fetchListingById(id);
+      console.log('Fetched Data:', fetchedData); // Log the fetched data for debugging
       if (!fetchedData) {
         throw new Error(`Property with ID ${id} not found.`);
       }
       setData(fetchedData);
-      setLoading(false);
     } catch (err) {
+      console.error('Error fetching data:', err); // Log any errors
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
 
-  if (id) {
-    fetchData();
-  }
+  fetchData();
 }, [id]);
 
   if (loading) {
