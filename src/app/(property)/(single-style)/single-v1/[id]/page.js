@@ -1,4 +1,5 @@
 // "use client";
+import dynamic from 'next/dynamic';
 import DefaultHeader from "@/components/common/DefaultHeader";
 import Footer from "@/components/common/default-footer";
 import MobileMenu from "@/components/common/mobile-menu";
@@ -29,6 +30,10 @@ import WalkScore from "@/components/property/property-single-style/common/WalkSc
 export const metadata = {
   title: "Property Single V1 || Homez - Real Estate NextJS Template",
 };
+const DynamicPropertyHeader = dynamic(() => import('@/components/property/property-single-style/common/PropertyHeader'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false // Disable server-side rendering for this component
+});
 
 const SingleV1 = ({params}) => {
   return (
@@ -45,7 +50,7 @@ const SingleV1 = ({params}) => {
       <section className="pt60 pb90 bgc-f7">
         <div className="container">
           <div className="row">
-            <PropertyHeader id={params.id} />
+            {params.id && <PropertyHeader id={params.id} />}
           </div>
           {/* End .row */}
 

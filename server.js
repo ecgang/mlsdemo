@@ -15,8 +15,17 @@ app.prepare().then(() => {
     target: 'https://jaliscomls.com',
     changeOrigin: true,
     pathRewrite: {
-      '^/api': '', // rewrite path
+      '^/api': '',
     },
+    onProxyReq: (proxyReq, req, res) => {
+      const token = 'YeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3MDA3MDUxNDQsImV4cCI6MTcwMzI5NzE0NCwiaXNzIjoiaHR0cHM6Ly9qYWxpc2NvbWxzLmNvbSIsImF1ZCI6Imh0dHBzOi8vamFsaXNjb21scy5jb20iLCJpYXQiOjE3MDA3MDUxNDQsImNsaWVudF9pZCI6IldQTF8yMDIzMTEyMzAxNTkyMmU5M0dpVjdrdzdJQ2FHbzZLZFdSdFJrREFFNGhYMiIsInNjb3BlIjoiYXBpIn0.kCdEiV_VRQC7ESX8MhjLtWi7gBZ0HS-dI12u8b3ID0E'; // Replace with your actual token
+      proxyReq.setHeader('Authorization', `Bearer ${token}`);
+    },
+    logLevel: 'debug', // Add logging for debugging
+    onError: (err, req, res) => {
+      console.error('Proxy error:', err);
+      res.status(500).send('Proxy error');
+    }
   }));
 
   server.all('*', (req, res) => {

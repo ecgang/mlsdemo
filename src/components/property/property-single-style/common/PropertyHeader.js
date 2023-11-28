@@ -1,25 +1,43 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import fetchListings, { fetchListingById } from '@/data/listings';
+import React, { useEffect, useState } from "react";
+import { fetchListingById } from "@/data/listings";
 
 const PropertyHeader = ({ id }) => {
-  console.log(id);
   const [data, setData] = useState(null);
-  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
- useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchListings();
-      setData(data);
-    };
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const fetchedData = await fetchListingById(id);
+      if (!fetchedData) {
+        throw new Error(`Property with ID ${id} not found.`);
+      }
+      setData(fetchedData);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
+  if (id) {
     fetchData();
-  }, []);
+  }
+}, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!data) {
-    // Handle loading state, e.g., display a loading spinner
-    return <div>Loading...</div>;
+    return <div>No property data available.</div>;
   }
   return (
     <>
@@ -42,8 +60,9 @@ const PropertyHeader = ({ id }) => {
               href="#"
             >
               <i className="far fa-clock pe-2" />
-              Built {Number(data.yearBuilding)}{" "}
-              
+              {Number(new Date().getFullYear()) -
+                Number(data.yearBuilding)}{" "}
+              years ago
             </a>
             <a className="ff-heading ml10 ml0-sm fz15" href="#">
               <i className="flaticon-fullscreen pe-2 align-text-top" />
@@ -86,7 +105,13 @@ const PropertyHeader = ({ id }) => {
               </a>
             </div>
             <h3 className="price mb-0">{data.price}</h3>
-           
+            <p className="text space fz15">
+              $
+              {(
+                Number(data.price.split("$")[1].split(",").join("")) / data.sqft
+              ).toFixed(2)}
+              /sq ft
+            </p>
           </div>
         </div>
       </div>
